@@ -1,6 +1,9 @@
 <template>
   <div id="app">
     <header>
+      <button @click="toggleChatNav" class="hamburger-menu">
+        <span class="material-icons">menu</span>
+      </button>
       <h1>PlantUML AI Assistant</h1>
       <div class="tools">
         <button @click="copyCode" class="btn btn-primary">Copy Code</button>
@@ -8,7 +11,7 @@
       </div>
     </header>
     <main>
-      <nav class="chat-nav">
+      <nav class="chat-nav" :class="{ 'chat-nav-hidden': !isChatNavVisible }">
         <button @click="newChat" class="btn btn-primary new-chat">New Chat</button>
         <ul class="chat-list">
           <li v-for="(chat, index) in chats" :key="index" @click="switchChat(index)" :class="{ active: currentChatIndex === index }">
@@ -82,6 +85,7 @@ export default {
     const zoomLevel = ref(1)
     const isFullscreen = ref(false)
     const umlImageContainer = ref(null)
+    const isChatNavVisible = ref(true)
 
     const currentChat = computed(() => chats.value[currentChatIndex.value] || null)
 
@@ -199,6 +203,10 @@ export default {
       }
     }
 
+    const toggleChatNav = () => {
+      isChatNavVisible.value = !isChatNavVisible.value
+    }
+
     onMounted(() => {
       newChat() // Create the first chat
       document.addEventListener('fullscreenchange', () => {
@@ -233,7 +241,9 @@ export default {
       toggleFullscreen,
       isFullscreen,
       umlImageContainer,
-      getAIColor
+      getAIColor,
+      isChatNavVisible,
+      toggleChatNav,
     }
   }
 }
@@ -282,6 +292,7 @@ main {
   display: flex;
   flex: 1;
   overflow: hidden;
+  transition: margin-left 0.3s ease-in-out;
 }
 
 .chat-nav {
@@ -292,6 +303,12 @@ main {
   box-shadow: var(--card-shadow);
   display: flex;
   flex-direction: column;
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(0);
+}
+
+.chat-nav-hidden {
+  transform: translateX(-100%);
 }
 
 .chat-list {
@@ -537,5 +554,33 @@ main {
 .material-icons {
   font-size: 1.2rem;
   vertical-align: middle;
+}
+
+.hamburger-menu {
+  background: none;
+  border: none;
+  color: var(--white);
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  margin-right: 15px;
+}
+
+@media (max-width: 768px) {
+  main {
+    margin-left: 0;
+  }
+
+  .chat-nav {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    height: calc(100% - 60px);
+    z-index: 1000;
+  }
+
+  .chat-nav-hidden {
+    transform: translateX(-100%);
+  }
 }
 </style>
