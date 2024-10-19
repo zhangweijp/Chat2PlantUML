@@ -52,7 +52,7 @@
           </button>
         </div>
       </div>
-      <div v-if="currentChat" class="editor-preview">
+      <div v-if="currentChat" class="editor-preview" :class="{ 'expanded': !isChatNavVisible }">
         <div class="code-preview">
           <MonacoEditor
             v-model="currentChat.plantUMLCode"
@@ -372,12 +372,12 @@ main {
   box-shadow: var(--card-shadow);
   display: flex;
   flex-direction: column;
-  transition: transform 0.3s ease-in-out;
+  transition: width 0.3s ease;
   transform: translateX(0);
 }
 
 .chat-nav-hidden {
-  transform: translateX(-100%);
+  width: 0;
 }
 
 .chat-list {
@@ -524,6 +524,7 @@ main {
   margin: 1rem;
   border-radius: 16px;
   box-shadow: var(--card-shadow);
+  transition: flex 0.3s ease;
 }
 
 .code-preview,
