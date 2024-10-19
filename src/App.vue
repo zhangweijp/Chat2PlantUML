@@ -366,6 +366,7 @@ main {
 .chat-nav {
   width: 200px;
   transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
+  flex-shrink: 0;
 }
 
 .chat-nav-hidden {
@@ -382,15 +383,20 @@ main {
 .chat-area {
   width: 300px;
   flex-shrink: 0;
+  transition: margin-left 0.3s ease-in-out;
 }
 
 .editor-preview {
   flex: 1;
-  transition: flex 0.3s ease-in-out;
+  transition: flex 0.3s ease-in-out, margin-left 0.3s ease-in-out;
 }
 
-.editor-preview.expanded {
-  flex: 1.5;
+main.chat-nav-hidden .content-area {
+  margin-left: 0;
+}
+
+main.chat-nav-hidden .editor-preview {
+  margin-left: 0;
 }
 
 .chat-list {
