@@ -1,13 +1,21 @@
 <template>
   <div id="app">
     <header>
-      <button @click="toggleChatNav" class="hamburger-menu">
-        <span class="material-icons">menu</span>
-      </button>
-      <h1>PlantUML AI Assistant</h1>
-      <div class="tools">
-        <button @click="copyCode" class="btn btn-primary">Copy Code</button>
-        <button @click="exportJPEG" class="btn btn-secondary">Export JPEG</button>
+      <div class="header-left">
+        <button @click="toggleChatNav" class="btn btn-icon hamburger-menu">
+          <span class="material-icons">menu</span>
+        </button>
+        <h1>PlantUML AI Assistant</h1>
+      </div>
+      <div class="header-right">
+        <button @click="copyCode" class="btn btn-primary">
+          <span class="material-icons">content_copy</span>
+          Copy
+        </button>
+        <button @click="exportJPEG" class="btn btn-primary">
+          <span class="material-icons">image</span>
+          Export
+        </button>
       </div>
     </header>
     <main>
@@ -282,10 +290,71 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+  padding: 0.5rem 1rem;
   background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
   color: var(--white);
   box-shadow: var(--card-shadow);
+}
+
+.header-left, .header-right {
+  display: flex;
+  align-items: center;
+}
+
+h1 {
+  font-size: 1.2rem;
+  margin: 0 0 0 0.5rem;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--white);
+  margin-left: 0.5rem;
+}
+
+.btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.2));
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.3));
+}
+
+.hamburger-menu {
+  background: none;
+  color: var(--white);
+  font-size: 24px;
+  padding: 0;
+  margin-right: 0;
+}
+
+.material-icons {
+  font-size: 1.2rem;
 }
 
 main {
@@ -581,6 +650,22 @@ main {
 
   .chat-nav-hidden {
     transform: translateX(-100%);
+  }
+
+  header {
+    padding: 0.5rem;
+  }
+
+  h1 {
+    font-size: 1rem;
+  }
+
+  .btn {
+    padding: 0.4rem 0.8rem;
+  }
+
+  .material-icons {
+    font-size: 1rem;
   }
 }
 </style>
