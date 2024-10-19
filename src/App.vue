@@ -26,9 +26,6 @@
             Chat {{ index + 1 }}
           </li>
         </ul>
-        <button class="btn btn-icon settings-btn">
-          <span class="material-icons">settings</span>
-        </button>
       </nav>
       <div v-if="currentChat" class="chat-area">
         <div class="chat-messages">
@@ -372,12 +369,16 @@ main {
   box-shadow: var(--card-shadow);
   display: flex;
   flex-direction: column;
-  transition: width 0.3s ease;
-  transform: translateX(0);
+  transition: all 0.3s ease;
+  position: absolute;
+  top: 60px;
+  left: 0;
+  bottom: 0;
+  z-index: 1000;
 }
 
 .chat-nav-hidden {
-  width: 0;
+  transform: translateX(-100%);
 }
 
 .chat-list {
@@ -524,7 +525,11 @@ main {
   margin: 1rem;
   border-radius: 16px;
   box-shadow: var(--card-shadow);
-  transition: flex 0.3s ease;
+  transition: margin-left 0.3s ease;
+}
+
+.editor-preview.expanded {
+  margin-left: 1rem;
 }
 
 .code-preview,
@@ -642,15 +647,15 @@ main {
   }
 
   .chat-nav {
-    position: absolute;
-    top: 60px;
-    left: 0;
-    height: calc(100% - 60px);
-    z-index: 1000;
+    width: 100%;
   }
 
-  .chat-nav-hidden {
-    transform: translateX(-100%);
+  .editor-preview {
+    margin-left: 1rem;
+  }
+
+  .editor-preview.expanded {
+    margin-left: 1rem;
   }
 
   header {
