@@ -26,48 +26,49 @@
             Chat {{ index + 1 }}
           </li>
         </ul>
+        <button class="btn btn-icon settings-btn">
+          <span class="material-icons">settings</span>
+        </button>
       </nav>
-      <div class="content-area">
-        <div v-if="currentChat" class="chat-area">
-          <div class="chat-messages">
-            <div v-for="(message, index) in currentChat.messages" :key="index" :class="['message', message.type]">
-              <div class="message-content">
-                <div v-if="message.type === 'ai'" class="ai-icon">
-                  <span class="material-icons" :style="{ color: getAIColor(message.aiType) }">smart_toy</span>
-                </div>
-                <div v-if="message.type === 'ai' && message.content.includes('@startuml')" class="code-block">
-                  <pre><code>{{ message.content }}</code></pre>
-                  <button @click="copyMessageCode(message.content)" class="btn btn-small">Copy</button>
-                </div>
-                <div v-else>{{ message.content }}</div>
+      <div v-if="currentChat" class="chat-area">
+        <div class="chat-messages">
+          <div v-for="(message, index) in currentChat.messages" :key="index" :class="['message', message.type]">
+            <div class="message-content">
+              <div v-if="message.type === 'ai'" class="ai-icon">
+                <span class="material-icons" :style="{ color: getAIColor(message.aiType) }">smart_toy</span>
               </div>
+              <div v-if="message.type === 'ai' && message.content.includes('@startuml')" class="code-block">
+                <pre><code>{{ message.content }}</code></pre>
+                <button @click="copyMessageCode(message.content)" class="btn btn-small">Copy</button>
+              </div>
+              <div v-else>{{ message.content }}</div>
             </div>
-          </div>
-          <div class="chat-input">
-            <input v-model="userInput" @keyup.enter="sendMessage" placeholder="Type your message...">
-            <button @click="sendMessage" class="btn btn-send">
-              <span class="material-icons">send</span>
-            </button>
           </div>
         </div>
-        <div v-if="currentChat" class="editor-preview" :class="{ 'expanded': !isChatNavVisible }">
-          <div class="code-preview">
-            <MonacoEditor
-              v-model="currentChat.plantUMLCode"
-              language="plantuml"
-              @change="updateUMLDiagram"
-            />
+        <div class="chat-input">
+          <input v-model="userInput" @keyup.enter="sendMessage" placeholder="Type your message...">
+          <button @click="sendMessage" class="btn btn-send">
+            <span class="material-icons">send</span>
+          </button>
+        </div>
+      </div>
+      <div v-if="currentChat" class="editor-preview" :class="{ 'expanded': !isChatNavVisible }">
+        <div class="code-preview">
+          <MonacoEditor
+            v-model="currentChat.plantUMLCode"
+            language="plantuml"
+            @change="updateUMLDiagram"
+          />
+        </div>
+        <div class="uml-diagram">
+          <div class="uml-controls">
+            <button @click="zoomIn" class="btn btn-icon"><span class="material-icons">zoom_in</span></button>
+            <button @click="zoomOut" class="btn btn-icon"><span class="material-icons">zoom_out</span></button>
+            <button @click="resetZoom" class="btn btn-icon"><span class="material-icons">center_focus_strong</span></button>
+            <button @click="toggleFullscreen" class="btn btn-icon"><span class="material-icons">fullscreen</span></button>
           </div>
-          <div class="uml-diagram">
-            <div class="uml-controls">
-              <button @click="zoomIn" class="btn btn-icon"><span class="material-icons">zoom_in</span></button>
-              <button @click="zoomOut" class="btn btn-icon"><span class="material-icons">zoom_out</span></button>
-              <button @click="resetZoom" class="btn btn-icon"><span class="material-icons">center_focus_strong</span></button>
-              <button @click="toggleFullscreen" class="btn btn-icon"><span class="material-icons">fullscreen</span></button>
-            </div>
-            <div class="uml-image-container" ref="umlImageContainer" :class="{ 'fullscreen': isFullscreen }">
-              <img :src="currentChat.umlImageUrl" alt="UML Diagram" ref="umlImage" :style="{ transform: `scale(${zoomLevel})` }" @wheel="handleWheel" />
-            </div>
+          <div class="uml-image-container" ref="umlImageContainer" :class="{ 'fullscreen': isFullscreen }">
+            <img :src="currentChat.umlImageUrl" alt="UML Diagram" ref="umlImage" :style="{ transform: `scale(${zoomLevel})` }" @wheel="handleWheel" />
           </div>
         </div>
       </div>
@@ -371,12 +372,12 @@ main {
   box-shadow: var(--card-shadow);
   display: flex;
   flex-direction: column;
-  transition: transform 0.3s ease;
+  transition: width 0.3s ease;
   transform: translateX(0);
 }
 
 .chat-nav-hidden {
-  transform: translateX(-100%);
+  width: 0;
 }
 
 .chat-list {
@@ -408,8 +409,7 @@ main {
 }
 
 .chat-area {
-  width: 300px;
-  flex-shrink: 0;
+  flex: 1;
   display: flex;
   flex-direction: column;
   padding: 1rem;
@@ -527,10 +527,6 @@ main {
   transition: flex 0.3s ease;
 }
 
-.editor-preview.expanded {
-  flex: 1.5;
-}
-
 .code-preview,
 .uml-diagram {
   flex: 1;
@@ -616,6 +612,13 @@ main {
 .new-chat {
   margin-bottom: 1rem;
   width: 100%;
+}
+
+.settings-btn {
+  margin-top: auto;
+  align-self: center;
+  background-color: var(--light-gray);
+  color: var(--text-color);
 }
 
 .material-icons {
