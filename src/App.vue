@@ -365,30 +365,29 @@ main {
 
 .chat-nav {
   width: 200px;
-  transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
   flex-shrink: 0;
 }
 
 .chat-nav-hidden {
-  transform: translateX(-100%);
   width: 0;
+  overflow: hidden;
 }
 
 .content-area {
   display: flex;
   flex: 1;
-  transition: margin-left 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 .chat-area {
   width: 300px;
   flex-shrink: 0;
-  transition: margin-left 0.3s ease-in-out;
 }
 
 .editor-preview {
   flex: 1;
-  transition: flex 0.3s ease-in-out, margin-left 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 main.chat-nav-hidden .content-area {
@@ -396,7 +395,7 @@ main.chat-nav-hidden .content-area {
 }
 
 main.chat-nav-hidden .editor-preview {
-  margin-left: 0;
+  flex: 1.5;
 }
 
 .chat-list {
@@ -666,6 +665,7 @@ main.chat-nav-hidden .editor-preview {
     left: 0;
     height: calc(100% - 60px);
     z-index: 1000;
+    background-color: var(--white);
   }
 
   .chat-nav-hidden {
@@ -689,7 +689,7 @@ main.chat-nav-hidden .editor-preview {
   }
 
   .content-area {
-    margin-left: 0 !important;
+    width: 100%;
   }
 
   .chat-area,
