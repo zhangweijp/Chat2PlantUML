@@ -27,47 +27,45 @@
           </li>
         </ul>
       </nav>
-      <div class="content-wrapper" :class="{ 'nav-expanded': isChatNavVisible }">
-        <div class="chat-area">
-          <div class="chat-messages">
-            <div v-for="(message, index) in currentChat.messages" :key="index" :class="['message', message.type]">
-              <div class="message-content">
-                <div v-if="message.type === 'ai'" class="ai-icon">
-                  <span class="material-icons" :style="{ color: getAIColor(message.aiType) }">smart_toy</span>
-                </div>
-                <div v-if="message.type === 'ai' && message.content.includes('@startuml')" class="code-block">
-                  <pre><code>{{ message.content }}</code></pre>
-                  <button @click="copyMessageCode(message.content)" class="btn btn-small">Copy</button>
-                </div>
-                <div v-else>{{ message.content }}</div>
+      <div v-if="currentChat" class="chat-area">
+        <div class="chat-messages">
+          <div v-for="(message, index) in currentChat.messages" :key="index" :class="['message', message.type]">
+            <div class="message-content">
+              <div v-if="message.type === 'ai'" class="ai-icon">
+                <span class="material-icons" :style="{ color: getAIColor(message.aiType) }">smart_toy</span>
               </div>
+              <div v-if="message.type === 'ai' && message.content.includes('@startuml')" class="code-block">
+                <pre><code>{{ message.content }}</code></pre>
+                <button @click="copyMessageCode(message.content)" class="btn btn-small">Copy</button>
+              </div>
+              <div v-else>{{ message.content }}</div>
             </div>
-          </div>
-          <div class="chat-input">
-            <input v-model="userInput" @keyup.enter="sendMessage" placeholder="Type your message...">
-            <button @click="sendMessage" class="btn btn-send">
-              <span class="material-icons">send</span>
-            </button>
           </div>
         </div>
-        <div class="editor-preview">
-          <div class="code-preview">
-            <MonacoEditor
-              v-model="currentChat.plantUMLCode"
-              language="plantuml"
-              @change="updateUMLDiagram"
-            />
+        <div class="chat-input">
+          <input v-model="userInput" @keyup.enter="sendMessage" placeholder="Type your message...">
+          <button @click="sendMessage" class="btn btn-send">
+            <span class="material-icons">send</span>
+          </button>
+        </div>
+      </div>
+      <div v-if="currentChat" class="editor-preview" :class="{ 'expanded': !isChatNavVisible }">
+        <div class="code-preview">
+          <MonacoEditor
+            v-model="currentChat.plantUMLCode"
+            language="plantuml"
+            @change="updateUMLDiagram"
+          />
+        </div>
+        <div class="uml-diagram">
+          <div class="uml-controls">
+            <button @click="zoomIn" class="btn btn-icon"><span class="material-icons">zoom_in</span></button>
+            <button @click="zoomOut" class="btn btn-icon"><span class="material-icons">zoom_out</span></button>
+            <button @click="resetZoom" class="btn btn-icon"><span class="material-icons">center_focus_strong</span></button>
+            <button @click="toggleFullscreen" class="btn btn-icon"><span class="material-icons">fullscreen</span></button>
           </div>
-          <div class="uml-diagram">
-            <div class="uml-controls">
-              <button @click="zoomIn" class="btn btn-icon"><span class="material-icons">zoom_in</span></button>
-              <button @click="zoomOut" class="btn btn-icon"><span class="material-icons">zoom_out</span></button>
-              <button @click="resetZoom" class="btn btn-icon"><span class="material-icons">center_focus_strong</span></button>
-              <button @click="toggleFullscreen" class="btn btn-icon"><span class="material-icons">fullscreen</span></button>
-            </div>
-            <div class="uml-image-container" ref="umlImageContainer" :class="{ 'fullscreen': isFullscreen }">
-              <img :src="currentChat.umlImageUrl" alt="UML Diagram" ref="umlImage" :style="{ transform: `scale(${zoomLevel})` }" @wheel="handleWheel" />
-            </div>
+          <div class="uml-image-container" ref="umlImageContainer" :class="{ 'fullscreen': isFullscreen }">
+            <img :src="currentChat.umlImageUrl" alt="UML Diagram" ref="umlImage" :style="{ transform: `scale(${zoomLevel})` }" @wheel="handleWheel" />
           </div>
         </div>
       </div>
@@ -360,10 +358,11 @@ main {
   display: flex;
   flex: 1;
   overflow: hidden;
+  transition: margin-left 0.3s ease-in-out;
 }
 
 .chat-nav {
-  width: 250px;
+  width: 200px;
   padding: 1rem;
   background-color: var(--white);
   overflow-y: auto;
@@ -373,25 +372,14 @@ main {
   transition: all 0.3s ease;
   position: absolute;
   top: 70px;
-  left: 0;
+  left: 10px;
   bottom: 10px;
   z-index: 1000;
-  border-radius: 0 16px 16px 0;
-  transform: translateX(0);
+  border-radius: 16px;
 }
 
 .chat-nav-hidden {
-  transform: translateX(-100%);
-}
-
-.content-wrapper {
-  display: flex;
-  flex: 1;
-  transition: margin-left 0.3s ease;
-}
-
-.content-wrapper.nav-expanded {
-  margin-left: 250px;
+  transform: translateX(-110%);
 }
 
 .chat-list {
@@ -426,14 +414,13 @@ main {
 }
 
 .chat-area {
-  width: 400px;
-  min-width: 400px;
+  flex: 1;
   display: flex;
   flex-direction: column;
   padding: 1rem;
   overflow: hidden;
   background-color: var(--white);
-  margin: 1rem 0.5rem 1rem 1rem;
+  margin: 1rem;
   border-radius: 16px;
   box-shadow: var(--card-shadow);
 }
@@ -539,9 +526,14 @@ main {
   flex-direction: column;
   overflow: hidden;
   background-color: var(--white);
-  margin: 1rem 1rem 1rem 0.5rem;
+  margin: 1rem;
   border-radius: 16px;
   box-shadow: var(--card-shadow);
+  transition: margin-left 0.3s ease;
+}
+
+.editor-preview.expanded {
+  margin-left: 1rem;
 }
 
 .code-preview,
@@ -661,29 +653,8 @@ main {
   margin-right: 15px;
 }
 
-@media (max-width: 1200px) {
-  .content-wrapper {
-    flex-direction: column;
-  }
-
-  .chat-area {
-    width: auto;
-    min-width: auto;
-    margin: 1rem 1rem 0.5rem 1rem;
-  }
-
-  .editor-preview {
-    margin: 0.5rem 1rem 1rem 1rem;
-  }
-}
-
 @media (max-width: 768px) {
-  .chat-nav {
-    width: 100%;
-    border-radius: 0;
-  }
-
-  .content-wrapper.nav-expanded {
+  main {
     margin-left: 0;
   }
 
@@ -716,3 +687,4 @@ main {
   }
 }
 </style>
+
