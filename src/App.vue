@@ -366,19 +366,20 @@ main {
   padding: 1rem;
   background-color: var(--white);
   overflow-y: auto;
-  box-shadow: var(--card-shadow);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   transition: all 0.3s ease;
   position: absolute;
-  top: 60px;
-  left: 0;
-  bottom: 0;
+  top: 70px;
+  left: 10px;
+  bottom: 10px;
   z-index: 1000;
+  border-radius: 16px;
 }
 
 .chat-nav-hidden {
-  transform: translateX(-100%);
+  transform: translateX(-110%);
 }
 
 .chat-list {
@@ -395,18 +396,21 @@ main {
   border-radius: 12px;
   color: var(--text-color);
   transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .chat-list li:hover {
   background-color: var(--secondary-color);
   color: var(--white);
   transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .chat-list li.active {
   background-color: var(--primary-color);
   color: var(--white);
   transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .chat-area {
@@ -617,6 +621,14 @@ main {
 .new-chat {
   margin-bottom: 1rem;
   width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.new-chat:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .settings-btn {
@@ -675,3 +687,4 @@ main {
   }
 }
 </style>
+
