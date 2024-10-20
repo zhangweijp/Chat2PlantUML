@@ -19,53 +19,57 @@
       </div>
     </header>
     <main>
-      <nav class="chat-nav" :class="{ 'chat-nav-hidden': !isChatNavVisible }">
-        <button @click="newChat" class="btn btn-primary new-chat">New Chat</button>
-        <ul class="chat-list">
-          <li v-for="(chat, index) in chats" :key="index" @click="switchChat(index)" :class="{ active: currentChatIndex === index }">
-            Chat {{ index + 1 }}
-          </li>
-        </ul>
-      </nav>
-      <div v-if="currentChat" class="chat-area">
-        <div class="chat-messages">
-          <div v-for="(message, index) in currentChat.messages" :key="index" :class="['message', message.type]">
-            <div class="message-content">
-              <div v-if="message.type === 'ai'" class="ai-icon">
-                <span class="material-icons" :style="{ color: getAIColor(message.aiType) }">smart_toy</span>
+      <div class="content-wrapper" :class="{ 'chat-nav-open': isChatNavVisible }">
+        <nav class="chat-nav" :class="{ 'chat-nav-hidden': !isChatNavVisible }">
+          <button @click="newChat" class="btn btn-primary new-chat">New Chat</button>
+          <ul class="chat-list">
+            <li v-for="(chat, index) in chats" :key="index" @click="switchChat(index)" :class="{ active: currentChatIndex === index }">
+              Chat {{ index + 1 }}
+            </li>
+          </ul>
+        </nav>
+        <div class="main-content">
+          <div v-if="currentChat" class="chat-area">
+            <div class="chat-messages">
+              <div v-for="(message, index) in currentChat.messages" :key="index" :class="['message', message.type]">
+                <div class="message-content">
+                  <div v-if="message.type === 'ai'" class="ai-icon">
+                    <span class="material-icons" :style="{ color: getAIColor(message.aiType) }">smart_toy</span>
+                  </div>
+                  <div v-if="message.type === 'ai' && message.content.includes('@startuml')" class="code-block">
+                    <pre><code>{{ message.content }}</code></pre>
+                    <button @click="copyMessageCode(message.content)" class="btn btn-small">Copy</button>
+                  </div>
+                  <div v-else>{{ message.content }}</div>
+                </div>
               </div>
-              <div v-if="message.type === 'ai' && message.content.includes('@startuml')" class="code-block">
-                <pre><code>{{ message.content }}</code></pre>
-                <button @click="copyMessageCode(message.content)" class="btn btn-small">Copy</button>
-              </div>
-              <div v-else>{{ message.content }}</div>
+            </div>
+            <div class="chat-input">
+              <input v-model="userInput" @keyup.enter="sendMessage" placeholder="Type your message...">
+              <button @click="sendMessage" class="btn btn-send">
+                <span class="material-icons">send</span>
+              </button>
             </div>
           </div>
-        </div>
-        <div class="chat-input">
-          <input v-model="userInput" @keyup.enter="sendMessage" placeholder="Type your message...">
-          <button @click="sendMessage" class="btn btn-send">
-            <span class="material-icons">send</span>
-          </button>
-        </div>
-      </div>
-      <div v-if="currentChat" class="editor-preview" :class="{ 'expanded': !isChatNavVisible }">
-        <div class="code-preview">
-          <MonacoEditor
-            v-model="currentChat.plantUMLCode"
-            language="plantuml"
-            @change="updateUMLDiagram"
-          />
-        </div>
-        <div class="uml-diagram">
-          <div class="uml-controls">
-            <button @click="zoomIn" class="btn btn-icon"><span class="material-icons">zoom_in</span></button>
-            <button @click="zoomOut" class="btn btn-icon"><span class="material-icons">zoom_out</span></button>
-            <button @click="resetZoom" class="btn btn-icon"><span class="material-icons">center_focus_strong</span></button>
-            <button @click="toggleFullscreen" class="btn btn-icon"><span class="material-icons">fullscreen</span></button>
-          </div>
-          <div class="uml-image-container" ref="umlImageContainer" :class="{ 'fullscreen': isFullscreen }">
-            <img :src="currentChat.umlImageUrl" alt="UML Diagram" ref="umlImage" :style="{ transform: `scale(${zoomLevel})` }" @wheel="handleWheel" />
+          <div v-if="currentChat" class="editor-preview">
+            <div class="code-preview">
+              <MonacoEditor
+                v-model="currentChat.plantUMLCode"
+                language="plantuml"
+                @change="updateUMLDiagram"
+              />
+            </div>
+            <div class="uml-diagram">
+              <div class="uml-controls">
+                <button @click="zoomIn" class="btn btn-icon"><span class="material-icons">zoom_in</span></button>
+                <button @click="zoomOut" class="btn btn-icon"><span class="material-icons">zoom_out</span></button>
+                <button @click="resetZoom" class="btn btn-icon"><span class="material-icons">center_focus_strong</span></button>
+                <button @click="toggleFullscreen" class="btn btn-icon"><span class="material-icons">fullscreen</span></button>
+              </div>
+              <div class="uml-image-container" ref="umlImageContainer" :class="{ 'fullscreen': isFullscreen }">
+                <img :src="currentChat.umlImageUrl" alt="UML Diagram" ref="umlImage" :style="{ transform: `scale(${zoomLevel})` }" @wheel="handleWheel" />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -358,6 +362,11 @@ main {
   display: flex;
   flex: 1;
   overflow: hidden;
+}
+
+.content-wrapper {
+  display: flex;
+  flex: 1;
   transition: margin-left 0.3s ease-in-out;
 }
 
@@ -380,6 +389,16 @@ main {
 
 .chat-nav-hidden {
   transform: translateX(-110%);
+}
+
+.chat-nav-open .main-content {
+  margin-left: 220px;
+}
+
+.main-content {
+  display: flex;
+  flex: 1;
+  transition: margin-left 0.3s ease-in-out;
 }
 
 .chat-list {
@@ -529,11 +548,6 @@ main {
   margin: 1rem;
   border-radius: 16px;
   box-shadow: var(--card-shadow);
-  transition: margin-left 0.3s ease;
-}
-
-.editor-preview.expanded {
-  margin-left: 1rem;
 }
 
 .code-preview,
@@ -654,20 +668,32 @@ main {
 }
 
 @media (max-width: 768px) {
-  main {
-    margin-left: 0;
+  .content-wrapper {
+    flex-direction: column;
   }
 
   .chat-nav {
     width: 100%;
+    position: static;
+    border-radius: 0;
+    margin-bottom: 1rem;
   }
 
+  .chat-nav-hidden {
+    transform: translateY(-100%);
+  }
+
+  .chat-nav-open .main-content {
+    margin-left: 0;
+  }
+
+  .main-content {
+    flex-direction: column;
+  }
+
+  .chat-area,
   .editor-preview {
-    margin-left: 1rem;
-  }
-
-  .editor-preview.expanded {
-    margin-left: 1rem;
+    margin: 0.5rem;
   }
 
   header {
@@ -687,4 +713,3 @@ main {
   }
 }
 </style>
-
