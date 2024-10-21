@@ -504,7 +504,7 @@ h1 {
 main {
   display: flex;
   flex: 1;
-  overflow: hidden;
+  overflow: auto; /* 改为 auto 以允许滚动 */
   padding: 1rem;
 }
 
@@ -512,11 +512,12 @@ main {
   display: flex;
   flex: 1;
   position: relative;
+  overflow: hidden;
 }
 
 .chat-nav {
   width: 250px;
-  background-color: var(--white); /* 将整个 chat-nav 的背景色改为白色 */
+  background-color: var(--white);
   overflow: hidden;
   box-shadow: var(--card-shadow);
   display: flex;
@@ -539,6 +540,7 @@ main {
   display: flex;
   flex: 1;
   transition: margin-left 0.3s ease-in-out;
+  overflow: auto;
 }
 
 .main-content.nav-open {
@@ -990,20 +992,33 @@ main {
 
 @media (max-width: 1200px) {
   .main-content {
-    flex-direction: column;
+    flex-direction: row;
   }
 
   .chat-area {
+    width: 40%;
+    min-width: 250px;
+  }
+
+  .editor-preview {
+    width: 60%;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    flex-direction: column;
+  }
+
+  .chat-area,
+  .editor-preview {
     width: 100%;
-    min-width: auto;
     margin-right: 0;
     margin-bottom: 1rem;
   }
+}
 
-  .main-content.nav-open {
-    margin-left: 0;
-  }
-
+@media (max-width: 300px) {
   .chat-nav {
     width: 100%;
     position: relative;
@@ -1013,21 +1028,9 @@ main {
   .chat-nav-hidden {
     transform: translateY(-110%);
   }
-}
 
-@media (max-width: 768px) {
-  main {
-    padding: 0.5rem;
-  }
-
-  .content-wrapper {
-    flex-direction: column;
-  }
-
-  .chat-nav,
-  .chat-area,
-  .editor-preview {
-    border-radius: 8px;
+  .main-content.nav-open {
+    margin-left: 0;
   }
 }
 
@@ -1104,11 +1107,15 @@ main {
 }
 
 .uml-image-container img {
-  max-width: none; /* 移除最大宽度限制 */
-  max-height: none; /* 移除最大高度限制 */
+  max-width: 100%; /* 确保图片不会超出容器宽度 */
+  max-height: 100%; /* 确保图片不会超出容器高度 */
   transform-origin: center center; /* 确保缩放是从中心开始的 */
 }
 </style>
+
+
+
+
 
 
 
