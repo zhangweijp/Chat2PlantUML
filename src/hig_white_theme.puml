@@ -1,0 +1,85 @@
+' Human Interface Guidelines Inspired Theme
+skinparam {
+    BackgroundColor #FFFFFF
+    Shadowing false
+    RoundCorner 5
+
+    FontName "SF Pro Text"
+    DefaultFontSize 12
+    FontColor #1D1D1F
+
+    ArrowColor #007AFF
+    ArrowThickness 1.5
+
+    Class {
+        BackgroundColor #F2F2F7
+        BorderColor #C7C7CC
+        ArrowColor #007AFF
+    }
+
+    Interface {
+        BackgroundColor #F2F2F7
+        BorderColor #C7C7CC
+    }
+
+    Sequence {
+        ParticipantBackgroundColor #FFFFFF
+        ParticipantBorderColor #C7C7CC
+        LifeLineBorderColor #C7C7CC
+        LifeLineBackgroundColor #FFFFFF
+        ActorBorderColor #C7C7CC
+        ActorBackgroundColor #FFFFFF
+        ArrowColor #007AFF
+    }
+
+    Activity {
+        StartColor #34C759
+        EndColor #FF3B30
+        BackgroundColor #FFFFFF
+        BorderColor #C7C7CC
+        ArrowColor #007AFF
+    }
+
+    Usecase {
+        BackgroundColor #F2F2F7
+        BorderColor #C7C7CC
+    }
+
+    Component {
+        BackgroundColor #F2F2F7
+        BorderColor #C7C7CC
+    }
+
+    State {
+        BackgroundColor #F2F2F7
+        BorderColor #C7C7CC
+    }
+
+    Object {
+        BackgroundColor #F2F2F7
+        BorderColor #C7C7CC
+    }
+
+    Folder {
+        BackgroundColor #F2F2F7
+        BorderColor #C7C7CC
+    }
+
+    Package {
+        BackgroundColor #F2F2F7
+        BorderColor #C7C7CC
+        FontColor #1D1D1F
+    }
+
+    Note {
+        BackgroundColor #FFF9C4
+        BorderColor #FFCC00
+        FontColor #1D1D1F
+    }
+
+    Legend {
+        BackgroundColor #EFEFF4
+        BorderColor #C7C7CC
+        FontColor #1D1D1F
+    }
+}

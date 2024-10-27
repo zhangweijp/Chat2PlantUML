@@ -1,0 +1,141 @@
+skinparam {
+    BackgroundColor white
+    Shadowing true
+    RoundCorner 10
+
+    FontName "SF Pro Text", "Segoe UI", "Arial"
+    DefaultFontSize 14
+    FontColor #000000
+
+    ArrowColor #007AFF
+    LifeLineBackgroundColor #E6F0FF
+    BoxBorderColor #007AFF
+    TitleFontColor #007AFF
+    ParticipantBorderColor #007AFF
+    ActorBorderColor #007AFF
+    LifeLineBorderColor #007AFF
+    LifeLineBackgroundColor #E6F0FF
+    BoxBorderColor #007AFF
+    TitleFontColor #007AFF
+    ArrowThickness 1.5
+    ArrowStyle "filled"
+
+    LineThickness 1.5
+
+    class {
+        BackgroundColor #F2F2F7
+        BorderColor #C7C7CC
+        ArrowColor #007AFF
+        RoundCorner 8
+    }
+
+    interface {
+        BackgroundColor #E0F7FA
+        BorderColor #007AFF
+        RoundCorner 8
+    }
+
+    sequence {
+        ParticipantBackgroundColor #E6F0FF
+        ParticipantBorderColor #007AFF
+        LifeLineBorderColor #007AFF
+        LifeLineBackgroundColor #FFFFFF
+        ActorBorderColor #000000
+        ActorBackgroundColor #FFFFFF
+        ArrowColor #007AFF
+        ParticipantFontStyle bold
+        ActorFontStyle bold
+    }
+
+    activity {
+        StartColor #34C759
+        EndColor #FF3B30
+        BackgroundColor #FFFFFF
+        BorderColor #5A5A5E
+        ArrowColor #007AFF
+        DecisionBackgroundColor #E0E0E0
+        DecisionBorderColor #B0B0B0
+    }
+
+    usecase {
+        BackgroundColor #F2F2F7
+        BorderColor #5A5A5E
+    }
+
+    component {
+        BackgroundColor #F2F2F7
+        BorderColor #5A5A5E
+        RoundCorner 8
+    }
+
+    state {
+        BackgroundColor #F2F2F7
+        BorderColor #5A5A5E
+    }
+
+    object {
+        BackgroundColor #F2F2F7
+        BorderColor #5A5A5E
+    }
+
+    folder {
+        BackgroundColor #F2F2F7
+        BorderColor #5A5A5E
+    }
+
+    package {
+        BackgroundColor #F2F2F7
+        BorderColor #5A5A5E
+        FontColor #000000
+    }
+
+    note {
+        BackgroundColor #F5FAFF
+        BorderColor #007AFF
+        FontColor #1D1D1F
+        FontSize 12
+        FontName "SF Pro Text"
+        RoundCorner 8
+        Shadowing true
+        LineStyle dotted
+    }
+
+    legend {
+        BackgroundColor #EFEFF4
+        BorderColor #5A5A5E
+        FontColor #000000
+        FontSize 12
+        FontName "SF Pro Text"
+    }
+        ActivationBorderColor #007AFF
+        ActivationBackgroundColor #E6F0FF
+        RoundCorner 10
+    }
+
+' 支持接口和枚举
+skinparam interface {
+    BackgroundColor #E0F7FA
+    BorderColor #005BB5
+        ActivationBorderColor #007AFF
+        ActivationBackgroundColor #E6F0FF
+        RoundCorner 10
+    }
+
+skinparam enum {
+    BackgroundColor #FFF3E0
+    BorderColor #FF9800
+}
+
+' 支持图表标题
+skinparam title {
+    FontName "SF Pro Text"
+    FontSize 20
+    FontColor #005BB5
+}
+
+' 支持图例标题
+skinparam legendTitle {
+    FontName "SF Pro Text"
+    FontSize 16
+    FontColor #005BB5
+}

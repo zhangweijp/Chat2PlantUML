@@ -1,0 +1,73 @@
+@startuml
+
+actor User
+boundary WebApp
+control Controller
+entity Database
+collections Cache
+
+User -> WebApp: 请求登录
+activate WebApp
+WebApp -> Controller: 验证用户
+activate Controller
+
+alt 缓存中存在用户信息
+    Controller -> Cache: 查询缓存
+    activate Cache
+    Cache --> Controller: 返回用户信息
+    deactivate Cache
+else 缓存中不存在用户信息
+    Controller -> Database: 查询用户信息
+    activate Database
+    Database --> Controller: 返回用户信息
+    deactivate Database
+    Controller -> Cache: 更新缓存
+    activate Cache
+    Cache --> Controller: 确认更新
+    deactivate Cache
+end
+
+Controller --> WebApp: 返回验证结果
+deactivate Controller
+WebApp --> User: 显示登录结果
+deactivate WebApp
+
+note right of User: 用户请求登录
+note left of WebApp: 处理登录请求
+note over Controller: 验证用户信息
+note over Database: 查询用户数据
+note over Cache: 缓存用户数据
+
+loop 每分钟
+    Controller -> Cache: 刷新缓存
+    activate Cache
+    Cache --> Controller: 确认刷新
+    deactivate Cache
+end
+
+par 并行处理
+    Controller -> Database: 记录日志
+    activate Database
+    Database --> Controller: 确认记录
+    deactivate Database
+    Controller -> WebApp: 更新状态
+    activate WebApp
+    WebApp --> Controller: 确认更新
+    deactivate WebApp
+end
+
+critical 关键路径
+    Controller -> WebApp: 发送关键通知
+    activate WebApp
+    WebApp --> Controller: 确认通知
+    deactivate WebApp
+end
+
+group 自定义分组
+    Controller -> WebApp: 发送自定义通知
+    activate WebApp
+    WebApp --> Controller: 确认通知
+    deactivate WebApp
+end
+
+@enduml
